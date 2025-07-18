@@ -8,7 +8,7 @@ A **Flask-based web application** designed to test and improve users' knowledge 
 ## 👨‍💻 Created By
 
 - **Matad0r**
-- **mlad014**
+- **@mlad014**
 
 ---
 
@@ -120,11 +120,31 @@ Linux-Command-Quiz/
 
 ## 📸 Screenshots
 
-- Terminal-Style Quiz Interface
-- Result Page with Badges
-- Admin Dashboard
+### 1️⃣ Quiz Interface
+![Quiz Interface](https://i.ibb.co/3YFCzbJy/quiz1.png)
 
-*(Add screenshots here when available)*
+This is the main quiz interface showing the terminal-style design.  
+Users interact with questions one by one in a hacker-themed environment.  
+The green monospace text and CRT effects create an immersive experience.
+
+---
+
+### 2️⃣ Question Example
+![Question Example](https://i.ibb.co/3y7Gn3tR/Qiuz2.png)
+
+An example of a multiple-choice Linux command question.  
+Clear instructions and options make learning simple and fun.  
+The blinking cursor and typing animation enhance realism.
+
+---
+
+### 3️⃣ Results & Badges
+![Results & Badges](https://i.ibb.co/RZqn1dj/Quiz3.png)
+
+The results page summarizes user performance with detailed stats.  
+Achievement badges motivate users to improve their Linux skills.  
+Social sharing options allow users to showcase their accomplishments.
+
 
 ---
 
