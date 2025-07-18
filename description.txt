@@ -1,1 +1,0 @@
-Linux Command Quiz - Test your knowledge of essential Linux terminal commands in an interactive, terminal-style interface. Features 30 carefully selected multiple-choice questions, achievement badges, and performance tracking. Perfect for beginners learning Linux or experienced users looking to test their skills. Created by Matad0r and mlad014.
