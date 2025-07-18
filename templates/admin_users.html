@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linux Quiz - Admin Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(10, 10, 10, 0) 60%, rgba(0, 30, 0, 0.2) 100%);
+            pointer-events: none;
+            z-index: 1001;
+        }
+        .nav-bar {
+            width: 100%;
+            background-color: #111;
+            border-bottom: 1px solid #0f0;
+            box-shadow: 0 2px 10px rgba(0, 255, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+        .nav-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: #0f0;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #0f0;
+            color: #000;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 100;
+        }
+        h1, h2, h3 {
+            color: #0f0;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            text-shadow: 0 0 5px #0f0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #0f0;
+        }
+        th {
+            background-color: #111;
+        }
+        tr:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .btn-delete {
+            background-color: #f00;
+        }
+        .badge-preview {
+            padding: 5px 10px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .badge-beginner {
+            background-color: #f0f;
+            color: #000;
+        }
+        .badge-power-user {
+            background-color: #0ff;
+            color: #000;
+        }
+        .badge-linux-guru {
+            background-color: #ff0;
+            color: #000;
+        }
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-container input {
+            flex: 1;
+            padding: 10px;
+            background-color: #111;
+            border: 1px solid #0f0;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+        }
+        .search-container button {
+            padding: 10px 15px;
+        }
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background-color: #111;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .filter-btn.active {
+            background-color: #0f0;
+            color: #000;
+        }
+        .logout-btn {
+            background-color: #f00;
+            color: #fff;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px 10px;
+            }
+            .nav-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .nav-logo {
+                margin-bottom: 10px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            table {
+                font-size: 14px;
+            }
+            th, td {
+                padding: 8px 5px;
+            }
+            .action-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .btn {
+                text-align: center;
+                padding: 8px;
+            }
+            .search-container {
+                flex-direction: column;
+            }
+            .search-container button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="nav-container">
+            <div class="nav-logo">Linux Quiz Admin</div>
+            <div class="nav-links">
+                <a href="/admin">Dashboard</a>
+                <a href="/admin/questions">Questions</a>
+                <a href="/admin/users" class="active">Users</a>
+                <a href="/admin/badges">Badges</a>
+                <a href="/admin/logout" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>Manage Users</h1>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search by name...">
+            <button class="btn" onclick="searchUsers()">Search</button>
+        </div>
+        
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterUsers('all')">All Users</button>
+            <button class="filter-btn" onclick="filterUsers('linux-guru')">Linux Guru</button>
+            <button class="filter-btn" onclick="filterUsers('power-user')">Power User</button>
+            <button class="filter-btn" onclick="filterUsers('beginner')">Beginner</button>
+            <button class="filter-btn" onclick="filterUsers('today')">Today</button>
+            <button class="filter-btn" onclick="filterUsers('this-week')">This Week</button>
+        </div>
+        
+        <table id="usersTable">
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Badge</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in users %}
+            <tr class="user-row
+                {% if user.score == questions|length %}linux-guru-row
+                {% elif user.score >= 15 and user.score <= 25 %}power-user-row
+                {% elif user.score < 10 %}beginner-row
+                {% endif %}">
+                <td>{{ user.name }}</td>
+                <td>{{ user.score }} / {{ questions|length }}</td>
+                <td>
+                    {% if user.score == questions|length %}
+                        <span class="badge-preview badge-linux-guru">Linux Guru</span>
+                    {% elif user.score >= 15 and user.score <= 25 %}
+                        <span class="badge-preview badge-power-user">Power User</span>
+                    {% elif user.score < 10 %}
+                        <span class="badge-preview badge-beginner">Beginner</span>
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>{{ user.date|default('N/A') }}</td>
+                <td class="action-buttons">
+                    <form action="/admin/users/delete" method="post" style="display: inline;">
+                        <input type="hidden" name="user_index" value="{{ loop.index0 }}">
+                        <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+    <script>
+        function searchUsers() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('usersTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            // Start from index 1 to skip the header row
+            for (let i = 1; i < rows.length; i++) {
+                const nameCell = rows[i].getElementsByTagName('td')[0];
+                if (nameCell) {
+                    const nameValue = nameCell.textContent || nameCell.innerText;
+                    if (nameValue.toUpperCase().indexOf(filter) > -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+        
+        function filterUsers(filterType) {
+            // Update active button
+            const buttons = document.getElementsByClassName('filter-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            event.currentTarget.classList.add('active');
+            
+            // Filter rows
+            const table = document.getElementById('usersTable');
+            const rows = table.getElementsByTagName('tr');
+            
+            // Start from index 1 to skip the header row
+            for (let i = 1; i < rows.length; i++) {
+                if (filterType === 'all') {
+                    rows[i].style.display = '';
+                } else if (filterType === 'linux-guru') {
+                    if (rows[i].classList.contains('linux-guru-row')) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                } else if (filterType === 'power-user') {
+                    if (rows[i].classList.contains('power-user-row')) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                } else if (filterType === 'beginner') {
+                    if (rows[i].classList.contains('beginner-row')) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                } else if (filterType === 'today') {
+                    const dateCell = rows[i].getElementsByTagName('td')[3];
+                    if (dateCell) {
+                        const dateValue = dateCell.textContent || dateCell.innerText;
+                        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+                        if (dateValue.includes(today)) {
+                            rows[i].style.display = '';
+                        } else {
+                            rows[i].style.display = 'none';
+                        }
+                    }
+                } else if (filterType === 'this-week') {
+                    const dateCell = rows[i].getElementsByTagName('td')[3];
+                    if (dateCell) {
+                        const dateValue = dateCell.textContent || dateCell.innerText;
+                        if (dateValue !== 'N/A' && isThisWeek(dateValue)) {
+                            rows[i].style.display = '';
+                        } else {
+                            rows[i].style.display = 'none';
+                        }
+                    }
+                }
+            }
+        }
+        
+        function isThisWeek(dateStr) {
+            if (dateStr === 'N/A') return false;
+            
+            const date = new Date(dateStr);
+            const now = new Date();
+            
+            // Get the first day of the current week (Sunday)
+            const firstDay = new Date(now.setDate(now.getDate() - now.getDay()));
+            firstDay.setHours(0, 0, 0, 0);
+            
+            // Get the last day of the current week (Saturday)
+            const lastDay = new Date(firstDay);
+            lastDay.setDate(lastDay.getDate() + 6);
+            lastDay.setHours(23, 59, 59, 999);
+            
+            return date >= firstDay && date <= lastDay;
+        }
+    </script>
+</body>
+</html>

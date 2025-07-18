@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linux Quiz - Admin Badges</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(10, 10, 10, 0) 60%, rgba(0, 30, 0, 0.2) 100%);
+            pointer-events: none;
+            z-index: 1001;
+        }
+        .nav-bar {
+            width: 100%;
+            background-color: #111;
+            border-bottom: 1px solid #0f0;
+            box-shadow: 0 2px 10px rgba(0, 255, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+        }
+        .nav-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
+            color: #0f0;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background-color: #0f0;
+            color: #000;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 100;
+        }
+        h1, h2, h3 {
+            color: #0f0;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            text-shadow: 0 0 5px #0f0;
+        }
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .badge-card {
+            background-color: #111;
+            border: 1px solid #0f0;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+            text-align: center;
+        }
+        .badge-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .badge-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .badge-description {
+            margin-bottom: 15px;
+        }
+        .badge-criteria {
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        .badge-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #0f0;
+        }
+        .badge-stat {
+            text-align: center;
+        }
+        .badge-stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .badge-preview {
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .badge-beginner {
+            background-color: #f0f;
+            color: #000;
+        }
+        .badge-power-user {
+            background-color: #0ff;
+            color: #000;
+        }
+        .badge-linux-guru {
+            background-color: #ff0;
+            color: #000;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        }
+        .btn {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            text-decoration: none;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #0a0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], 
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            background-color: #111;
+            border: 1px solid #0f0;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            box-sizing: border-box;
+        }
+        .color-picker {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid #0f0;
+        }
+        .logout-btn {
+            background-color: #f00;
+            color: #fff;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px 10px;
+            }
+            .badge-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .nav-logo {
+                margin-bottom: 10px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="nav-container">
+            <div class="nav-logo">Linux Quiz Admin</div>
+            <div class="nav-links">
+                <a href="/admin">Dashboard</a>
+                <a href="/admin/questions">Questions</a>
+                <a href="/admin/users">Users</a>
+                <a href="/admin/badges" class="active">Badges</a>
+                <a href="/admin/logout" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>Manage Badges</h1>
+        
+        <div class="badge-grid">
+            <!-- Linux Guru Badge -->
+            <div class="badge-card">
+                <div class="badge-icon">🔥</div>
+                <div class="badge-name">Linux Guru</div>
+                <div class="badge-preview badge-linux-guru">Linux Guru</div>
+                <div class="badge-description">Awarded to users who achieve a perfect score.</div>
+                <div class="badge-criteria">Criteria: Score 30/30 on the quiz</div>
+                
+                <div class="badge-stats">
+                    <div class="badge-stat">
+                        <div>Users</div>
+                        <div class="badge-stat-value">{{ badge_stats.linux_guru }}</div>
+                    </div>
+                    <div class="badge-stat">
+                        <div>Percentage</div>
+                        <div class="badge-stat-value">{{ badge_stats.linux_guru_percent }}%</div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="openEditModal('linux-guru')">Edit Badge</button>
+                <button class="btn" style="background-color: #ff9900; margin-left: 5px;" onclick="previewBadge('linux-guru')">Preview</button>
+            </div>
+            
+            <!-- Power User Badge -->
+            <div class="badge-card">
+                <div class="badge-icon">✨</div>
+                <div class="badge-name">Power User</div>
+                <div class="badge-preview badge-power-user">Power User</div>
+                <div class="badge-description">Awarded to users with good Linux command knowledge.</div>
+                <div class="badge-criteria">Criteria: Score between 15-25 on the quiz</div>
+                
+                <div class="badge-stats">
+                    <div class="badge-stat">
+                        <div>Users</div>
+                        <div class="badge-stat-value">{{ badge_stats.power_user }}</div>
+                    </div>
+                    <div class="badge-stat">
+                        <div>Percentage</div>
+                        <div class="badge-stat-value">{{ badge_stats.power_user_percent }}%</div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="openEditModal('power-user')">Edit Badge</button>
+                <button class="btn" style="background-color: #ff9900; margin-left: 5px;" onclick="previewBadge('power-user')">Preview</button>
+                <button class="btn" style="background-color: #ff9900; margin-left: 5px;" onclick="previewBadge('power-user')">Preview</button>
+            </div>
+            
+            <!-- Beginner Badge -->
+            <div class="badge-card">
+                <div class="badge-icon">😅</div>
+                <div class="badge-name">Beginner</div>
+                <div class="badge-preview badge-beginner">Beginner</div>
+                <div class="badge-description">Awarded to users who are starting their Linux journey.</div>
+                <div class="badge-criteria">Criteria: Score less than 10 on the quiz</div>
+                
+                <div class="badge-stats">
+                    <div class="badge-stat">
+                        <div>Users</div>
+                        <div class="badge-stat-value">{{ badge_stats.beginner }}</div>
+                    </div>
+                    <div class="badge-stat">
+                        <div>Percentage</div>
+                        <div class="badge-stat-value">{{ badge_stats.beginner_percent }}%</div>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="openEditModal('beginner')">Edit Badge</button>
+                <button class="btn" style="background-color: #ff9900; margin-left: 5px;" onclick="previewBadge('beginner')">Preview</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Badge Modal (Hidden by default) -->
+    <div id="editModal" style="display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7);">
+        <div style="background-color: #111; margin: 10% auto; padding: 20px; border: 1px solid #0f0; width: 70%; max-width: 500px; border-radius: 5px; box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);">
+            <span style="color: #0f0; float: right; font-size: 28px; font-weight: bold; cursor: pointer;" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Edit Badge</h2>
+            
+            <div id="badgePreviewContainer" style="text-align: center; margin-bottom: 20px; display: none;">
+                <h3>Badge Preview</h3>
+                <div id="previewIcon" style="font-size: 48px; margin-bottom: 10px;">🔥</div>
+                <div id="previewBadge" style="display: inline-block; padding: 10px 15px; border-radius: 5px; background-color: #ff0; color: #000; font-weight: bold;">Linux Guru</div>
+            </div>
+            
+            <form action="/admin/badges/edit" method="post">
+                <input type="hidden" id="badge_type" name="badge_type">
+                
+                <div class="form-group">
+                    <label for="badge_name">Badge Name:</label>
+                    <input type="text" id="badge_name" name="badge_name" required onkeyup="updateLivePreview()">
+                </div>
+                
+                <div class="form-group">
+                    <label for="badge_description">Description:</label>
+                    <textarea id="badge_description" name="badge_description" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Criteria:</label>
+                    <div id="criteria_linux_guru" style="display: none;">
+                        <input type="number" name="perfect_score" min="1" max="30" value="30"> Perfect score required
+                    </div>
+                    <div id="criteria_power_user" style="display: none;">
+                        <input type="number" name="min_score" min="1" max="29" value="15"> Minimum score
+                        <input type="number" name="max_score" min="1" max="29" value="25"> Maximum score
+                    </div>
+                    <div id="criteria_beginner" style="display: none;">
+                        <input type="number" name="max_beginner_score" min="1" max="29" value="10"> Maximum score for beginners
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Badge Color:</label>
+                    <div class="color-picker">
+                        <input type="color" id="badge_color" name="badge_color">
+                        <div class="color-preview" id="colorPreview"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="badge_icon">Badge Icon (emoji):</label>
+                    <input type="text" id="badge_icon" name="badge_icon" placeholder="🔥, ✨, 😅, etc." onkeyup="updateLivePreview()">
+                </div>
+                
+                <button type="submit" class="btn" onclick="return confirm('Are you sure you want to save these badge changes?')">Save Changes</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Badge data
+        const badges = {
+            'linux-guru': {
+                name: 'Linux Guru',
+                description: 'Awarded to users who achieve a perfect score.',
+                color: '#ffff00',
+                icon: '🔥'
+            },
+            'power-user': {
+                name: 'Power User',
+                description: 'Awarded to users with good Linux command knowledge.',
+                color: '#00ffff',
+                icon: '✨'
+            },
+            'beginner': {
+                name: 'Beginner',
+                description: 'Awarded to users who are starting their Linux journey.',
+                color: '#ff00ff',
+                icon: '😅'
+            }
+        };
+        
+        function openEditModal(badgeType) {
+            const badge = badges[badgeType];
+            
+            // Set form values
+            document.getElementById('badge_type').value = badgeType;
+            document.getElementById('badge_name').value = badge.name;
+            document.getElementById('badge_description').value = badge.description;
+            document.getElementById('badge_color').value = badge.color;
+            document.getElementById('badge_icon').value = badge.icon;
+            document.getElementById('colorPreview').style.backgroundColor = badge.color;
+            
+            // Show appropriate criteria fields
+            document.getElementById('criteria_linux_guru').style.display = 'none';
+            document.getElementById('criteria_power_user').style.display = 'none';
+            document.getElementById('criteria_beginner').style.display = 'none';
+            document.getElementById('criteria_' + badgeType).style.display = 'block';
+            
+            // Set modal title
+            document.getElementById('modalTitle').textContent = 'Edit ' + badge.name + ' Badge';
+            
+            // Show modal and form
+            document.getElementById('editModal').style.display = 'block';
+            document.querySelector('#editModal form').style.display = 'block';
+            
+            // Initialize live preview
+            document.getElementById('previewIcon').textContent = badge.icon;
+            document.getElementById('previewBadge').textContent = badge.name;
+            document.getElementById('previewBadge').style.backgroundColor = badge.color;
+            document.getElementById('badgePreviewContainer').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+            document.getElementById('badgePreviewContainer').style.display = 'none';
+            document.querySelector('#editModal form').style.display = 'block';
+        }
+        
+        // Update color preview when color input changes
+        document.getElementById('badge_color').addEventListener('input', function() {
+            document.getElementById('colorPreview').style.backgroundColor = this.value;
+            // Also update the preview badge if visible
+            if (document.getElementById('badgePreviewContainer').style.display !== 'none') {
+                document.getElementById('previewBadge').style.backgroundColor = this.value;
+            }
+        });
+        
+        // Preview badge function
+        function previewBadge(badgeType) {
+            const badge = badges[badgeType];
+            
+            // Set preview values
+            document.getElementById('previewIcon').textContent = badge.icon;
+            document.getElementById('previewBadge').textContent = badge.name;
+            document.getElementById('previewBadge').style.backgroundColor = badge.color;
+            
+            // Show preview container
+            document.getElementById('badgePreviewContainer').style.display = 'block';
+            document.getElementById('editModal').style.display = 'block';
+            document.getElementById('modalTitle').textContent = 'Preview ' + badge.name + ' Badge';
+            
+            // Hide the form
+            document.querySelector('#editModal form').style.display = 'none';
+        }
+        
+        function updateLivePreview() {
+            // Show the preview container if not already visible
+            if (document.getElementById('badgePreviewContainer').style.display === 'none') {
+                document.getElementById('badgePreviewContainer').style.display = 'block';
+            }
+            
+            // Update preview with current form values
+            const badgeName = document.getElementById('badge_name').value;
+            const badgeIcon = document.getElementById('badge_icon').value;
+            const badgeColor = document.getElementById('badge_color').value;
+            
+            if (badgeName) {
+                document.getElementById('previewBadge').textContent = badgeName;
+            }
+            
+            if (badgeIcon) {
+                document.getElementById('previewIcon').textContent = badgeIcon;
+            }
+            
+            document.getElementById('previewBadge').style.backgroundColor = badgeColor;
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('editModal')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

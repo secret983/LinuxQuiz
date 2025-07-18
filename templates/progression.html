@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linux Quiz - Progression</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('copy', function(e) {
+            e.preventDefault();
+            alert("Please respect the content. Copying is disabled.");
+            return false;
+        });
+        document.body.addEventListener('paste', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        document.body.addEventListener('cut', function(e) {
+            e.preventDefault();
+            alert("Please respect the content. Copying is disabled.");
+            return false;
+        });
+        document.body.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+    });
+    </script>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(10, 10, 10, 0) 60%, rgba(0, 30, 0, 0.2) 100%);
+            pointer-events: none;
+            z-index: 1001;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 100;
+        }
+        h1, h2, h3 {
+            color: #0f0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .terminal-header {
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+        }
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+        .glitch {
+            animation: glitch 2s infinite;
+        }
+        @keyframes glitch {
+            0% { opacity: 1; }
+            1% { opacity: 0.8; }
+            2% { opacity: 1; }
+            10% { opacity: 1; }
+            11% { opacity: 0.4; }
+            12% { opacity: 1; }
+            70% { opacity: 1; }
+            71% { opacity: 0.7; }
+            72% { opacity: 1; }
+            100% { opacity: 1; }
+        }
+        .progression-table {
+            margin: 30px auto;
+            border: 1px solid #0f0;
+            padding: 20px;
+            border-radius: 5px;
+            animation: glow 2s infinite alternate;
+            max-width: 700px;
+        }
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px #0f0;
+            }
+            to {
+                box-shadow: 0 0 15px #0f0;
+            }
+        }
+        .progress-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .progress-table th, .progress-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #0f0;
+        }
+        .progress-table tr:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+        .category-details {
+            margin-top: 40px;
+        }
+        .category-card {
+            border: 1px solid #0f0;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        .category-title {
+            color: #0f0;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .command-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .command-list li {
+            padding: 8px 0;
+            border-bottom: 1px dotted #0f0;
+        }
+        .command-name {
+            font-weight: bold;
+            color: #0ff;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        button {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0a0;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #111;
+            height: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #0f0;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: #0f0;
+            text-align: center;
+            line-height: 30px;
+            color: #000;
+            font-weight: bold;
+            transition: width 1.5s;
+        }
+        .typed {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #0f0;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+            margin: 0 auto;
+            max-width: fit-content;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0f0 }
+        }
+        
+        /* Responsive styles for mobile devices */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px 10px;
+            }
+            h1, h2 {
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+            h3 {
+                font-size: 18px;
+            }
+            .progression-table {
+                padding: 15px 10px;
+                margin: 20px auto;
+            }
+            .progress-table th, .progress-table td {
+                padding: 8px 5px;
+                font-size: 14px;
+            }
+            .category-card {
+                padding: 10px;
+                margin-bottom: 15px;
+            }
+            .command-list li {
+                padding: 6px 0;
+            }
+            button {
+                width: 100%;
+                padding: 15px;
+                font-size: 16px;
+                margin: 5px 0;
+            }
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body class="glitch">
+    <div class="container">
+        <div class="terminal-header">
+            <span>user@linux-quiz:~$ ./show_progression.sh</span>
+        </div>
+        <h1>Linux Command Quiz <span class="blink">_</span></h1>
+        <p class="typed">Track your progress and master Linux commands!</p>
+        
+        <div class="progression-table">
+            <h2>Tableau de Progression</h2>
+            <div class="progress-bar-container">
+                <div class="progress-bar" style="width: {{ (total_score / 90) * 100 }}%">
+                    {{ total_score }}/90 Points
+                </div>
+            </div>
+            <table class="progress-table">
+                <tr>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Progress</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>Basic Commands</td>
+                    <td>Fundamental Linux commands for navigation and file viewing</td>
+                    <td>{{ basic_score|default(0) }}/30</td>
+                    <td>
+                        {% if basic_score|default(0) >= 25 %}
+                            <span style="color: #0f0;">Mastered</span>
+                        {% elif basic_score|default(0) >= 15 %}
+                            <span style="color: #ff0;">Intermediate</span>
+                        {% else %}
+                            <span style="color: #f00;">Beginner</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>File Management</td>
+                    <td>Commands for manipulating files and permissions</td>
+                    <td>{{ file_score|default(0) }}/30</td>
+                    <td>
+                        {% if file_score|default(0) >= 25 %}
+                            <span style="color: #0f0;">Mastered</span>
+                        {% elif file_score|default(0) >= 15 %}
+                            <span style="color: #ff0;">Intermediate</span>
+                        {% else %}
+                            <span style="color: #f00;">Beginner</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>System Administration</td>
+                    <td>Commands for system monitoring and management</td>
+                    <td>{{ system_score|default(0) }}/30</td>
+                    <td>
+                        {% if system_score|default(0) >= 25 %}
+                            <span style="color: #0f0;">Mastered</span>
+                        {% elif system_score|default(0) >= 15 %}
+                            <span style="color: #ff0;">Intermediate</span>
+                        {% else %}
+                            <span style="color: #f00;">Beginner</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="category-details">
+            <h2>Command Categories</h2>
+            
+            <div class="category-card">
+                <h3 class="category-title">Basic Commands</h3>
+                <p>These commands are essential for navigating and working with the Linux filesystem:</p>
+                <ul class="command-list">
+                    <li><span class="command-name">ls</span> - List directory contents</li>
+                    <li><span class="command-name">cd</span> - Change directory</li>
+                    <li><span class="command-name">pwd</span> - Print working directory</li>
+                    <li><span class="command-name">cat</span> - Display file contents</li>
+                    <li><span class="command-name">man</span> - Display manual pages</li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <h3 class="category-title">File Management</h3>
+                <p>These commands help you manipulate files and manage permissions:</p>
+                <ul class="command-list">
+                    <li><span class="command-name">chmod</span> - Change file permissions</li>
+                    <li><span class="command-name">chown</span> - Change file ownership</li>
+                    <li><span class="command-name">mkdir</span> - Create directories</li>
+                    <li><span class="command-name">rm</span> - Remove files or directories</li>
+                    <li><span class="command-name">cp/mv</span> - Copy or move files</li>
+                </ul>
+            </div>
+            
+            <div class="category-card">
+                <h3 class="category-title">System Administration</h3>
+                <p>These commands are used for system monitoring and management:</p>
+                <ul class="command-list">
+                    <li><span class="command-name">ps</span> - Display process status</li>
+                    <li><span class="command-name">top</span> - Monitor system processes</li>
+                    <li><span class="command-name">df</span> - Display disk space usage</li>
+                    <li><span class="command-name">ifconfig</span> - Configure network interfaces</li>
+                    <li><span class="command-name">kill</span> - Terminate processes</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="nav-buttons">
+            <a href="/"><button>Back to Home</button></a>
+            <a href="/quiz"><button>Take Quiz</button></a>
+        </div>
+    </div>
+</body>
+</html>

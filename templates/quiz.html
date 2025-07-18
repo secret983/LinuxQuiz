@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linux Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Disable copy-paste
+        document.body.addEventListener('copy', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        document.body.addEventListener('paste', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        document.body.addEventListener('cut', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        document.body.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+        
+        // Typing animation for questions
+        const questions = document.querySelectorAll('.question');
+        questions.forEach((question, index) => {
+            question.style.animationDelay = `${index * 0.2}s`;
+        });
+        
+        // Timer functionality
+        const timerDuration = 30 * 60; // 30 minutes in seconds
+        let timeLeft = timerDuration;
+        const timerElement = document.querySelector('.timer');
+        const timerTextElement = document.querySelector('.timer-text');
+        
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            const percentage = (timeLeft / timerDuration) * 100;
+            
+            // Update timer display
+            timerTextElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            timerElement.style.background = `conic-gradient(${timeLeft < 300 ? '#f00' : '#0f0'} ${100 - percentage}%, transparent ${100 - percentage}%)`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                document.querySelector('form').submit();
+            } else {
+                timeLeft--;
+            }
+        }
+        
+        updateTimer();
+        const timerInterval = setInterval(updateTimer, 1000);
+        
+        // Add typewriter sound effect (commented out as it's optional)
+        /*
+        const typingSound = new Audio('path/to/typing-sound.mp3');
+        document.querySelectorAll('h3, p').forEach(element => {
+            element.addEventListener('animationstart', () => {
+                typingSound.play();
+            });
+        });
+        */
+    });
+    </script>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(10, 10, 10, 0) 60%, rgba(0, 30, 0, 0.2) 100%);
+            pointer-events: none;
+            z-index: 1001;
+        }
+        .glitch {
+            animation: glitch 2s infinite;
+        }
+        @keyframes glitch {
+            0% { opacity: 1; }
+            1% { opacity: 0.8; }
+            2% { opacity: 1; }
+            10% { opacity: 1; }
+            11% { opacity: 0.4; }
+            12% { opacity: 1; }
+            70% { opacity: 1; }
+            71% { opacity: 0.7; }
+            72% { opacity: 1; }
+            100% { opacity: 1; }
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 100;
+        }
+        h1 {
+            color: #0f0;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow: 0 0 5px #0f0;
+        }
+        .question {
+            margin-bottom: 30px;
+            border: 1px solid #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .options {
+            margin-top: 10px;
+        }
+        .option {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid transparent;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+        .option:hover {
+            border-color: #0f0;
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+        .option label {
+            display: inline-block;
+            width: calc(100% - 30px);
+            cursor: pointer;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        button {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            display: block;
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        button:hover {
+            background-color: #0a0;
+        }
+        button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            animation: buttonGlow 2s infinite;
+        }
+        @keyframes buttonGlow {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+        .terminal-header {
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+        }
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+        .typed {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #0f0;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+            margin: 0 auto;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0f0 }
+        }
+        
+        /* Responsive styles for mobile devices */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px 10px;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .question {
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+            .question h3 {
+                font-size: 16px;
+            }
+            .option {
+                margin-bottom: 8px;
+            }
+            input[type="radio"] {
+                transform: scale(1.2);
+                margin-right: 8px;
+            }
+            button {
+                width: 100%;
+                padding: 15px;
+                font-size: 16px;
+            }
+        }
+        .timer-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            z-index: 1000;
+        }
+        .timer {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(#0f0 0%, transparent 0%);
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+        .timer::before {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background: #000;
+            border-radius: 50%;
+            top: 10%;
+            left: 10%;
+        }
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0f0;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="glitch">
+
+    <div class="container">
+        <div class="terminal-header">
+            <span>user@linux-quiz:~$ ./quiz_in_progress.sh</span>
+        </div>
+        <h1>Linux Command Quiz <span class="blink">_</span></h1>
+        <p class="typed">Welcome, {{ player_name }}! Answer the following questions about Linux commands:</p>
+        
+        <form action="/submit" method="post">
+            <input type="hidden" name="player_name" value="{{ player_name }}">
+            
+            {% for i in range(questions|length) %}
+            <div class="question">
+                <h3>{{ i+1 }}. {{ questions[i].question }}</h3>
+                <div class="options">
+                    {% for option in questions[i].options %}
+                    <div class="option">
+                        <input type="radio" id="q{{ i }}_{{ loop.index0 }}" name="q{{ i }}" value="{{ option }}" required>
+                        <label for="q{{ i }}_{{ loop.index0 }}">{{ option }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            
+            <button type="submit">Submit Answers</button>
+        </form>
+    </div>
+</body>
+</html>
