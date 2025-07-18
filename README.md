@@ -1,47 +1,75 @@
-# Linux Command Quiz
+# 🐧 Linux Command Quiz
+### *An Interactive Terminal-Style Linux Learning Experience*
 
-A Flask web application that tests users' knowledge of basic Linux commands with a terminal-style interface. This interactive quiz helps users learn and test their understanding of essential Linux terminal commands in an engaging way.
+A **Flask-based web application** designed to test and improve users' knowledge of fundamental Linux commands. With an **authentic terminal-style interface**, this quiz offers an engaging way for beginners and enthusiasts to practice essential commands in a fun, gamified environment.
 
-## Created By
+---
 
-- Matad0r
-- mlad014
+## 👨‍💻 Created By
 
-## Features
+- **Matad0r**
+- **mlad014**
 
-- **Comprehensive Quiz**: 30 carefully selected multiple-choice questions covering basic Linux commands, file management, and system administration
-- **Terminal-Style Interface**: Authentic terminal look with dark theme, green text, monospace font, and CRT screen effects
-- **Interactive Animations**: Typing animations, blinking cursor, and glitch effects for an immersive experience
-- **User Tracking System**: Records user scores and displays them on a leaderboard
-- **Achievement Badges**: Three different badges awarded based on performance:
-  - "Linux Guru" badge for perfect scores (30/30)
-  - "Power User" badge for good performance (15-25 points)
-  - "Beginner" badge for those starting their Linux journey (<10 points)
-- **Performance Analysis**: Detailed breakdown of correct and incorrect answers
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
-- **Admin Dashboard**: Complete management system for questions, users, and badges
-- **Social Sharing**: Share results on social media platforms
+---
 
-## Setup
+## ✨ Features
 
-1. Install dependencies:
-   ```
+- ✅ **Comprehensive Quiz**  
+  30 carefully selected multiple-choice questions on Linux basics: file management, permissions, navigation, and system administration.
+
+- ✅ **Terminal-Style Interface**  
+  Dark CRT-themed UI with **green monospace text**, **typing animations**, **blinking cursor**, and subtle **glitch effects** for a hacker-like experience.
+
+- ✅ **Gamified Learning (Achievement Badges)**  
+  - 🏆 **Linux Guru** – Perfect score (30/30)  
+  - ⚡ **Power User** – Solid performance (15–25 points)  
+  - 🌱 **Beginner** – Starting your Linux journey (<10 points)
+
+- ✅ **Leaderboard & User Tracking**  
+  Scores saved and ranked to encourage competitive learning.
+
+- ✅ **Performance Analysis**  
+  Detailed breakdown of correct and incorrect answers at the end of the quiz.
+
+- ✅ **Admin Dashboard**  
+  Secure panel to manage questions, users, and badges.
+
+- ✅ **Responsive Design**  
+  Works seamlessly on **desktop, tablet, and mobile** devices.
+
+- ✅ **Social Sharing**  
+  Share quiz results and badges directly on social media.
+
+---
+
+## 🚀 Setup & Installation
+
+1. **Install dependencies**  
+   ```bash
    pip install flask
    ```
 
-2. Run the application:
-   ```
+2. **Run the application**  
+   ```bash
    python app.py
    ```
 
-3. Access the quiz:
+3. **Access the quiz**  
+   Open your browser and go to:
    ```
    http://127.0.0.1:5000/
    ```
 
-## Admin Access
+---
 
-Access the admin panel at `/admin/login` with:
+## 🔑 Admin Access
+
+Access the admin panel at:
+```
+/admin/login
+```
+
+**Default Credentials**
 - Username: `admin`
 - Password: `linuxquiz123`
 
@@ -52,34 +80,52 @@ The admin panel provides the following capabilities:
 - **User Management**: View and manage user records with filtering options
 - **Badge Management**: Customize badges, criteria, and appearance
 
-## Technical Implementation
+---
 
-- **Backend**: Python Flask framework for routing and server-side logic
-- **Data Storage**: JSON file storage for questions and user scores
-- **Frontend**: HTML, CSS, and JavaScript with terminal-inspired design
-- **Authentication**: Simple session-based admin authentication
-- **Responsive Design**: CSS media queries for mobile compatibility
+## 🔐 Tech Stack
 
-## Project Structure
+- **Backend**: [Flask](https://flask.palletsprojects.com/) (Python)  
+- **Frontend**: HTML, CSS, JavaScript (Terminal-inspired theme)  
+- **Data Storage**: JSON files for questions and user scores  
+- **Authentication**: Session-based admin login  
+- **Responsive UI**: CSS media queries
 
-- `app.py`: Main application file with routes and quiz logic
-- `templates/`: HTML templates for all pages
-  - `index.html`: Welcome page
-  - `quiz.html`: Quiz questions interface
-  - `result.html`: Results and badge display
-  - `admin_*.html`: Admin panel interfaces
-- `scores.json`: User score data storage
+---
 
-## Future Enhancements
+## 📂 Project Structure
 
-- Database integration for better data management
+```
+Linux-Command-Quiz/
+├── app.py           # Main Flask application with routes & logic
+├── scores.json      # User scores & leaderboard data
+├── templates/       # HTML templates
+│   ├── index.html    # Welcome page
+│   ├── quiz.html     # Quiz interface
+│   ├── result.html   # Results & badges
+│   └── admin_*.html  # Admin panel templates
+└── static/         # CSS, JS, and images (terminal effects)
+```
+
+---
+
+## 🌟 Future Enhancements
+
+- Database integration (MySQL/PostgreSQL) for better scalability
 - User authentication system
-- More question categories and difficulty levels
-- Timed quiz mode with countdown timer
-- Expanded badge and achievement system
+- More question categories & difficulty levels
+- Timed quiz mode with countdown
+- Expanded badges & achievements system
 
-## Screenshots
+---
 
-- Quiz interface with terminal-style theme
-- Results page with badges
-- Admin dashboard for managing content
+## 📸 Screenshots
+
+- Terminal-Style Quiz Interface
+- Result Page with Badges
+- Admin Dashboard
+
+*(Add screenshots here when available)*
+
+---
+
+Happy Learning & Keep Hacking the Terminal! 🐧💻
